@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/footer'
 import Add from '/assets/add.png'
 import AddModal from './AddModal'
+import moment from 'moment';
 
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
@@ -19,13 +20,11 @@ function AjouterDisp() {
 
     useEffect(() => {
         setLoading(true);
-      
         if (!user) {
           setError('You must be logged in to view this page');
           setLoading(false);
           return;
         }
-      
         axios
           .get(`http://localhost:5555/profs/dispo/${id}`, {
             headers: {
@@ -52,17 +51,13 @@ function AjouterDisp() {
           })
           .then(() => {
             enqueueSnackbar('Disponibilité supprimée avec succès', { variant: 'success' });
-            // Filter out the deleted disponibility from the state
             setDisp(disp.filter((disponibility) => disponibility._id !== disponibilityId));
             console.log('Disponibility deleted successfully');
           })
           .catch((error) => {
             console.error('Error deleting disponibility:', error);
-            // Handle error: display error message, set loading state, etc.
           });
       };
-      
-
     return (
         <div className='flex min-h-screen flex-col text-gray-400 bg-gray-900 body-font'>
         <Navbar />
@@ -83,8 +78,8 @@ function AjouterDisp() {
                         <div className='flex flex-col items-center justify-center'>
                         {disp.map((disponibility) => (
                           <div className='flex items-center justify-center' key={disponibility._id}>
-                            <p className='w-full text-md self-center font-bold font-body text-gray-400 ml-8 border rounded mb-2 p-2 border-gray-400'>{disponibility.jour} : {disponibility.debut} - {disponibility.fin}</p>
-                            {/* <button onClick={() => handleDeleteDisponibility(disponibility._id)}>Delete</button> */}
+                            <p className='w-full self-center font-bold font-body text-gray-200 ml-8 border rounded mb-2 px-8 py-4 border-gray-400'>{moment(disponibility.jour).format('DD/MM/YYYY')}  :  {disponibility.debut} - {disponibility.fin}</p>
+                            <button className='bg-red-800 font-bold font-body text-gray-200 ml-8 border rounded p-2 border-gray-400' onClick={() => handleDeleteDisponibility(disponibility._id)}>Delete</button>
                           </div>
                         ))}
                       </div>

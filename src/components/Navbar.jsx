@@ -7,8 +7,9 @@ import  useAuthContext  from '../hooks/useAuthContext';
 
 import { useLogout } from '../hooks/useLogout'
 
-import Logo from '/assets/logo2.png';
 import Pfp from '/assets/pfp.jpg';
+import Logo from "/assets/logo.png";
+import Lg from "/assets/lg2.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -26,7 +27,7 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 py-4 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -42,20 +43,15 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <button className="flex flex-shrink-0 items-center text-white font-body font-bold">
-                  <img
-                    className="h-8 w-auto"
-                    src={Logo}
-                    alt="Your Company"
-                  />
-                  <Link to="/">
-                  E-Plan
+                  <Link className='flex items-center space-x-2' to="/">
+                  <img src={Logo} className="h-14" />
                   </Link>
                 </button>
-                      <Link to="/ajouter-disp"
-                      className='hidden sm:ml-6 sm:block text-gray-200 bg-gray-900 hover:text-gray-100 hover:bg-gray-700 block rounded-md px-5 py-2 text-base font-medium font-body'>
-                          Disponibilités
-                      </Link>
               </div>
+              <Link to="/ajouter-disp"
+                className='hidden sm:ml-6 sm:block text-center text-gray-200 bg-gray-900 hover:text-gray-100 hover:bg-gray-700  rounded-md px-5 py-2  font-medium font-body'>
+                  Disponibilités
+              </Link>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
                 {/* Profile dropdown */}

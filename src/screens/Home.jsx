@@ -54,7 +54,6 @@ function Home() {
       annee : '',
       semestre : '',
       type : '',
-      session : '',
   });
   
   const GetData = async () => {
@@ -76,9 +75,9 @@ function Home() {
   };
 
   return (
-    <div className='h-screen bg-gray-900 font-body'>
+    <div className="font-body text-white flex flex-col min-h-screen bg-gray-900">
       <Navbar />
-      <div className=' w-full flex flex items-center justify-center bg-gray-900'>
+      <div className="flex  flex-wrap justify-center items-center">
         {/* space to add the filtering combobox */}
         <div className="w-full md:w-1/3 p-4">
           <div className="flex flex-col items-center justify-center">
@@ -116,20 +115,12 @@ function Home() {
             <Combobox
               options={[
                 { label: "Choisir Type" },
-                { value: "Normale", label: "Normale" },
+                { value: "Normal", label: "Normal" },
                 { value: "Remplacement", label: "Remplacement" },
+                { value: "Rattrappage", label: "Rattrappage" }
               ]}
               selectedValue={filters.filter2} 
               onChange={(value) => setFilters({ ...filters, filter2: value })}  
-            />
-            <Combobox
-              options={[
-                { label: "Choisir Session" },
-                { value: "Normale", label: "Normale" },
-                { value: "Rattrappage", label: "Rattrappage" },
-              ]}
-              selectedValue={filters.filter3}  
-              onChange={(value) => setFilters({ ...filters, filter3: value })} 
             />
              <button
                 className="w-3/4 py-2 mt-2 text-white font-body font-semibold bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"

@@ -3,17 +3,10 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
 import useAuthContext  from '../hooks/useAuthContext';
 import Select from 'react-select';
-const jours = [
-  { value: 'Samedi', label: 'Samedi' },
-  { value: 'Dimanche', label: 'Dimanche' },
-  { value: 'Lundi', label: 'Lundi' },
-  { value: 'Mardi', label: 'Mardi' },
-  { value: 'Mercredi', label: 'Mercredi' },
-  { value: 'Jeudi', label: 'Jeudi' },
-]
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const heurs = [
   { value: '8:00', label: '8:00' },
@@ -34,9 +27,6 @@ const heurs = [
   { value: '15:30', label: '15:30' },
   { value: '16:00', label: '16:00' },
   { value: '16:30', label: '16:30' },
-  { value: '17:00', label: '17:00' },
-  { value: '17:30', label: '17:30' },
-  { value: '18:00', label: '18:00' },
 ]
 
 const AddModal = ({onClose }) => {
@@ -46,6 +36,7 @@ const AddModal = ({onClose }) => {
   const id = user.user._id
   const handleDayChange = (selectedDay) => {
     setDate({ ...date, jour: selectedDay });
+    console.log(date)
   };
   
   const handleStartTimeChange = (selectedStartTime) => {
@@ -106,23 +97,16 @@ const AddModal = ({onClose }) => {
           className='absolute right-6 top-6 text-3xl text-red-600 cursor-pointer'
           onClick={onClose}
         />
-        <h2 className='text-xl font-body font-medium mt-6 text-white self-center'>Ajouter disponibilité</h2>
+        <h2 className='text-xl font-body font-medium mt-6 text-white self-center'>Ajouter une disponibilité</h2>
         <div className='my-4 flex flex-col'>
             <label className='font-body font-medium text-gray-400 mb-2'>Jour</label>
-            <Select
-              onChange={(selectedOption) => handleDayChange(selectedOption.value)}
-              options={jours}
-              className="basic-multi-select font-body bg-gray-600 bg-opacity-20  focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-black leading-8 transition-colors duration-200 ease-in-out"
-              styles={{
-                ...customStyles, // Merge custom styles
-                control: (base) => ({
-                  ...base,
-                  borderColor: 'gray',
-                  color: 'white',
-                  backgroundColor: '',
-                }),
-              }}
-              />
+            <DatePicker
+              className='w-full font-body bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+              showIcon
+              selected={date.jour}
+              onChange={(date) => handleDayChange(date)}     
+              dateFormat="dd/MM/yyyy"        
+            />
         </div>
         <div className="flex ">
           <div className="mr-4 w-full">
