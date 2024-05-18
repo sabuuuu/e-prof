@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useAuthContext from "./useAuthContext";
 import { useSnackbar } from 'notistack';
-import axios from "axios";
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
@@ -14,7 +13,7 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
   
-    const response = await fetch('http://localhost:5555/profs/loginprof', {
+    const response = await fetch('https://eplan-backend.onrender.com/profs/loginprof', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +34,7 @@ export const useLogin = () => {
     // Update user context or dispatch actions based on your state management (optional)
     dispatch({ type: 'LOGIN', payload: json });
   
-    enqueueSnackbar('Logged in successfully', { variant: 'success' });
+    enqueueSnackbar('Connexion réussie ', { variant: 'success' });
     setIsLoading(false);
   };
   

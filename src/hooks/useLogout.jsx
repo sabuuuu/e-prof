@@ -13,7 +13,7 @@ export const useLogout = () => {
         dispatch({type: 'LOGOUT'});
         
         //show snackbar
-        enqueueSnackbar('Logged out successfully', { variant: 'success' });
+        enqueueSnackbar('Déconnexion réussie', { variant: 'success' });
     }
 
     return {logout};

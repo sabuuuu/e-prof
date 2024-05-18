@@ -4,7 +4,6 @@ import  useAuthContext  from './hooks/useAuthContext'
 
 import Home from './screens/Home'
 import AjouterDisp from './screens/AjouterDisp'
-import ListeDisp from './screens/ListeDisp'
 import Login from './screens/Login'
 function App() {
   const {user} = useAuthContext();
@@ -12,7 +11,6 @@ function App() {
     <Routes>
       <Route path='/' element={user ? <Home /> : <Navigate to='/login' />} />
       <Route path='/ajouter-disp' element={user ? <AjouterDisp /> : <Navigate to='/login' />} />
-      <Route path='/liste-disp' element={user ? <ListeDisp /> : <Navigate to='/login' />} />
       <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
     </Routes>
   )

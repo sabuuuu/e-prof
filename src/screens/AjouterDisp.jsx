@@ -16,8 +16,8 @@ function AjouterDisp() {
     const [loading, setLoading] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuthContext();
-    const id = user.user._id
 
+    const id = user.user._id;
     useEffect(() => {
         setLoading(true);
         if (!user) {
@@ -26,7 +26,7 @@ function AjouterDisp() {
           return;
         }
         axios
-          .get(`http://localhost:5555/profs/dispo/${id}`, {
+          .get(`https://eplan-backend.onrender.com/profs/dispo/${id}`, {
             headers: {
               'Authorization': `Bearer ${user.token}`
             }
@@ -42,32 +42,32 @@ function AjouterDisp() {
           });
     }, []);
     
-    const handleDeleteDisponibility = (disponibilityId) => {
-        axios
-          .delete(`http://localhost:5555/profs/dispo/${disponibilityId}`, {
-            headers: {
-              'Authorization': `Bearer ${user.token}`
-            }
-          })
-          .then(() => {
-            enqueueSnackbar('Disponibilité supprimée avec succès', { variant: 'success' });
-            setDisp(disp.filter((disponibility) => disponibility._id !== disponibilityId));
-            console.log('Disponibility deleted successfully');
-          })
-          .catch((error) => {
-            console.error('Error deleting disponibility:', error);
-          });
-      };
+    const handleDelete = async (idDisp) => {
+      console.log(idDisp)
+      try {
+        await axios.delete(`https://eplan-backend.onrender.com/profs/prof/${user.user._id}/dispo/${idDisp}` , {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        }); 
+        const updatedDispos = disp.filter((disp) => disp._id !== idDisp);
+        setDisp(updatedDispos);
+        enqueueSnackbar('Disponibilité supprimée avec succès', { variant: 'success' });
+      } catch (error) {
+        console.error('Error deleting disponibility:', error);
+        enqueueSnackbar('Une erreur est survenue', { variant: 'error' });
+      }
+    };
     return (
         <div className='flex min-h-screen flex-col text-gray-400 bg-gray-900 body-font'>
         <Navbar />
         <div className='flex items-center justify-around px-28 py-6'>
             <div></div>
             <h1 className='sm:text-2xl text-2xl font-bold font-body text-white'>
-                Mes disponibilités
+                Mes disponibilités 🎯 :
             </h1>
             <button onClick={() => setShowModal(true)}>
-            <img src={Add} alt=""  className='py-1 text-white font-body font-semibold bg-indigo-500 border-0  px-1 focus:outline-none hover:bg-indigo-600 rounded ' />
+            <img src={Add} alt=""  className='py-1 text-white font-body font-semibold  border-0  px-1 focus:outline-none hover:bg-indigo-800 rounded-lg ' />
             </button>
         </div>
         <div className='rounded-xl mb-8 border border-gray-200 shadow  mx-auto  lg:col-span-8 xl:p-6 p-4 md:w-1/2 md:mt-4 justify-center '>
@@ -77,9 +77,9 @@ function AjouterDisp() {
                     disp.length > 0 ? (
                         <div className='flex flex-col items-center justify-center'>
                         {disp.map((disponibility) => (
-                          <div className='flex items-center justify-center' key={disponibility._id}>
-                            <p className='w-full self-center font-bold font-body text-gray-200 ml-8 border rounded mb-2 px-8 py-4 border-gray-400'>{moment(disponibility.jour).format('DD/MM/YYYY')}  :  {disponibility.debut} - {disponibility.fin}</p>
-                            <button className='bg-red-800 font-bold font-body text-gray-200 ml-8 border rounded p-2 border-gray-400' onClick={() => handleDeleteDisponibility(disponibility._id)}>Delete</button>
+                          <div className='flex items-center justify-center ml-8 border rounded px-8 py-2 border-gray-400 border-opacity-45 mb-2' key={disponibility._id}>
+                            <p className='w-full self-center font-body text-gray-200 '>📍 {moment(disponibility.jour).format('DD/MM/YYYY')}  :  {disponibility.debut} - {disponibility.fin}</p>
+                            <button className='bg-red-800 text-sm font-body text-gray-200 ml-8 border border-opacity-45 rounded px-6 py-1 border-gray-400' onClick={() => handleDelete(disponibility._id)}>supprimer</button>
                           </div>
                         ))}
                       </div>

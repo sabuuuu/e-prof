@@ -1,10 +1,12 @@
 import React from 'react'
 import E from '/assets/e.png'
+import Logo2 from '/assets/logo2.png'
 function Footer() {
   return (
     <footer class="text-gray-400 bg-gray-900 body-font mt-auto ">
     <div class="container px-3 py-4 mx-auto flex items-center sm:flex-row flex-col ">
       <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+      <img src={Logo2} className='h-6'/>
         <span class="ml-3 text-sm font-bold font-body">E-Plan for professors</span>
       </a>
       <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4 font-body">©2024 E-plan —

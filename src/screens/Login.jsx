@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useLogin } from '../hooks/useLogin'
-import { Link } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import Logo from '/assets/logo.png'
 import E from '/assets/e.png'
 
@@ -12,6 +10,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(matricule, birthdate);
     await login(matricule, birthdate);
   }
 
@@ -48,7 +47,7 @@ function Login() {
             <a href="/" title="Home Page" class="flex items-center justify-center text-white text-2xl font-bold font-body">
               LOG IN
             </a>
-            <h1 class="mt-6 mb-4 text-xl text-center text-grey-400 font-body title-font mb-5 opacity-96">Connectez-vous a votre compte</h1>
+            <h1 class="mt-6  text-xl text-center text-grey-400 font-body title-font mb-5 opacity-96">Connectez-vous a votre compte</h1>
 
             <form className='pb-1 space-y-4 justify-center items-center mt-6 ' onSubmit={handleSubmit}>
               <div className='block'>
@@ -58,14 +57,18 @@ function Login() {
 
               <div className='block'>
                 <label className='block mb-1 text-sm font-body text-gray-400'>Date de naissance : </label>
-                <input  className='w-full font-body bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out' type='password' value={birthdate} onChange={e => setBirthdate(e.target.value)} />
+                <input  className='w-full font-body bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out' 
+                  type='date' 
+                  value={birthdate} 
+                  onChange={e => setBirthdate(e.target.value)} />
               </div>
               <div class="flex items-center">
-                <button className='w-full py-2 mt-3 text-white font-body font-semibold bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg' type='submit' >Connexion</button>
+                <button className='w-full mt-3 text-white font-body font-semibold bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg' type='submit' >Connexion</button>
               </div>
               
 
-              {error && <div className='text-sm mt-3 text-red-700  text-center font-body'>{error}</div>}
+              {error && <div className='error-message text-red-700 text-center mt-2'>{error}</div>}
+              
             </form>
       </div>
     </section>

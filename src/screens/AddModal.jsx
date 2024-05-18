@@ -31,20 +31,23 @@ const heurs = [
 
 const AddModal = ({onClose }) => {
   const [date, setDate] = useState({ jour: '', debut: '', fin: '' });
+  const [errorMessage, setErrorMessage] = useState(null)
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuthContext();
   const id = user.user._id
   const handleDayChange = (selectedDay) => {
     setDate({ ...date, jour: selectedDay });
-    console.log(date)
+    setErrorMessage(null);
   };
   
   const handleStartTimeChange = (selectedStartTime) => {
     setDate({ ...date, debut: selectedStartTime });
+    setErrorMessage(null);
   };
   
   const handleEndTimeChange = (selectedEndTime) => {
     setDate({ ...date, fin: selectedEndTime });
+    setErrorMessage(null);
   };
   const customStyles = {
     menu: (provided, state) => ({
@@ -68,8 +71,13 @@ const AddModal = ({onClose }) => {
   };
 
   const handleAddDisp = () => {
+    if (!date.jour || !date.debut || !date.fin) {
+      setErrorMessage('Veuillez remplir tous les champs ✍🏽');
+      return;
+    }
+    setErrorMessage(null);
     axios
-      .put(`http://localhost:5555/profs/dispo/${id}`, { dispo: date }, {
+      .put(`https://eplan-backend.onrender.com/profs/dispo/${id}`, { dispo: date }, {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
@@ -153,6 +161,7 @@ const AddModal = ({onClose }) => {
         >
           Ajouter Disponibilité
         </button>
+        {errorMessage && <p className="error-message text-red-700 text-center text-lg mt-4">{errorMessage}</p>}
       </div>
     </div>
   );
