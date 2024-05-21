@@ -43,10 +43,9 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
       const salles = useMemo(() => {
         return Array.from(new Set(exams.flat().map((exam) => exam.salle)));
       })
-      const prof = useMemo(() => {
+      const profs = useMemo(() => {
         return Array.from(new Set(exams.flat().map((exam) => exam.profs)));
       })
-      
     return (
         <div className="w-full overflow-x-auto rounded-lg">
             <div className="align-middle inline-block min-w-full">
@@ -91,17 +90,23 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
                         </ul>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap">
-                        <ul className="">   
-                            {prof.map((profs, index) => (
-                                profs && profs.name ? (
-                                <li key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
-                                    {profs.name}
-                                </li>
+                        <ul className="">
+                            {profs.map((professors, index) => (
+                            <li key={`professor-group-${index}`} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
+                                {professors && professors.length > 0 ? (
+                                <div>
+                                    {professors.map((professor, idx) => (
+                                    professor && professor.name ? (
+                                        <div className="inline" key={`professor-${professor._id}-${index}-${idx}`}> {professor.name}</div>
+                                    ) : (
+                                        null
+                                    )
+                                    ))}
+                                </div>
                                 ) : (
-                                <li key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
-                                    Aucun enseignant
-                                </li>
-                                )
+                                <div key={`no-professors-${index}`}>Aucun enseignant</div>
+                                )}
+                            </li>
                             ))}
                         </ul>
                     </td>
@@ -167,20 +172,26 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
                             </ul>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap">
-                            <ul className="">   
-                                {prof.map((profs, index) => (
-                                    profs && profs.name ? (
-                                    <li key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
-                                        {profs.name}
-                                    </li>
+                        <ul className="">
+                            {profs.map((professors, index) => (
+                            <li key={`professor-group-${index}`} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
+                                {professors && professors.length > 0 ? (
+                                <div>
+                                    {professors.map((professor, idx) => (
+                                    professor && professor.name ? (
+                                        <div className="inline" key={`professor-${professor._id}-${index}-${idx}`}> {professor.name}</div>
                                     ) : (
-                                    <li key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
-                                        Aucun enseignant
-                                    </li>
+                                        null
                                     )
-                                ))}
-                            </ul>
-                        </td>
+                                    ))}
+                                </div>
+                                ) : (
+                                <div key={`no-professors-${index}`}>Aucun enseignant</div>
+                                )}
+                            </li>
+                            ))}
+                        </ul>
+                    </td>
                     </tr>
                 </tbody>
                 </table>
@@ -190,7 +201,7 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
             {/* */}
             <div className="flex justify-center mt-4">
                 {exams.length > 0 ? (
-                    <button onClick={handleDownload} className="bg-indigo-900 hover:bg-indigo-700 text-white py-2 px-4 rounded-md w-1/4">
+                    <button onClick={handleDownload} className="bg-indigo-900 hover:bg-indigo-700 text-white py-3 px-4 rounded-md w-1/4">
                         {loader ? (
                             <span>En cours de téléchargement...</span>
                             ) : (
