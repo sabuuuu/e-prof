@@ -1,13 +1,16 @@
-import React from 'react'
+import React ,{useContext} from 'react'
 import E from '/assets/e.png'
 import Logo2 from '/assets/logo2.png'
+
+import { ThemeContext } from '../context/ThemeContext';
 function Footer() {
+  const { theme } = useContext(ThemeContext);
   return (
-    <footer class="text-gray-400 bg-gray-900 body-font mt-auto ">
+<footer className={`body-font mt-auto ${theme === 'dark' ? 'text-gray-400 bg-gray-900' : 'text-gray-900 bg-gray-200'}`}>
     <div class="container px-3 py-4 mx-auto flex items-center sm:flex-row flex-col ">
       <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
       <img src={Logo2} className='h-6'/>
-        <span class="ml-3 text-sm font-bold font-body">E-Plan for professors</span>
+        <span className={`ml-3 text-sm font-bold font-body ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>E-Plan for professors</span>
       </a>
       <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4 font-body">©2024 E-plan —
         <a href="https://twitter.com/knyttneve" class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@AIE</a>

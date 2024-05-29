@@ -1,4 +1,4 @@
-import { Fragment ,useState ,useEffect} from 'react'
+import { Fragment ,useContext} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { useLogout } from '../hooks/useLogout'
 
 import Pfp from '/assets/pfp.jpg';
 import Logo from "/assets/logo.png";
-import Lg from "/assets/lg2.png";
+import { ThemeContext } from '../context/ThemeContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -17,14 +17,14 @@ function classNames(...classes) {
 
 export default function Navbar() {
     const { user } = useAuthContext();
-    const userEmail = user.matricule;
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     const {logout} = useLogout();
     const handleClick = () => {
         logout();
     }
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className={`navbar ${theme === 'dark' ? 'bg-gray-800' : 'bg-blue-800'}`}>
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 py-4 sm:px-6 lg:px-8">
@@ -47,9 +47,20 @@ export default function Navbar() {
                   <img src={Logo} className="h-14" />
                   </Link>
                 </button>
+                <div className={`flex justify-center items-center h-12 w-12 border-none  rounded ${theme === 'dark' ? 'bg-gray-800 ' : 'bg-blue-800'}`}>
+                  <button onClick={toggleTheme}
+                    className={`h-12 w-12 rounded p-2 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-blue-700'}`}>
+                    <svg className={`fill-violet-950 ${theme === 'dark' ? 'hidden' : 'block'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg className={`fill-yellow-500  ${theme === 'dark' ? 'block' : 'hidden'}`}fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fillRule="evenodd" clipRule="evenodd"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <Link to="/ajouter-disp"
-                className='hidden sm:ml-6 sm:block text-center text-gray-200 bg-gray-900 hover:text-gray-100 hover:bg-gray-700  rounded-md px-5 py-2  font-medium font-body'>
+                className={`hidden sm:ml-6 sm:block text-center   rounded-md px-5 py-2  font-medium font-body ${theme === 'dark' ? 'hover:bg-gray-700 text-gray-200 bg-gray-900 hover:text-gray-100' : 'bg-blue-900 hover:bg-blue-700 text-white'}`}>
                   Disponibilités
               </Link>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -97,7 +108,7 @@ export default function Navbar() {
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
                 <Disclosure.Button
-                  className= 'text-gray-200 bg-gray-900 hover:text-gray-100 hover:bg-gray-700 block rounded-md px-5 py-2 text-base font-medium font-body'
+                  className={`block rounded-md px-5 py-2 text-base font-medium font-body ${theme === 'dark' ? 'hover:bg-gray-700 text-gray-200 bg-gray-900 hover:text-gray-100' : 'bg-blue-900 hover:bg-blue-700 text-white'}`}
                 >
                   <Link to="/ajouter-disp" className=''>
                   Disponibilités

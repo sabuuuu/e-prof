@@ -6,13 +6,16 @@ import './index.css'
 import { SnackbarProvider } from 'notistack';
 import {BrowserRouter} from 'react-router-dom';
 import {AuthContextProvider } from './context/authContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <AuthContextProvider>
-      <SnackbarProvider>
-        <App />
-      </SnackbarProvider>
-    </AuthContextProvider>
+    <ThemeProvider>
+      <AuthContextProvider>
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
+      </AuthContextProvider>
+    </ThemeProvider>
   </BrowserRouter>
 )

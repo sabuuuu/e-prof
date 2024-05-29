@@ -1,10 +1,11 @@
-import React ,{ useState ,useEffect ,useMemo} from 'react'
+import React ,{ useState ,useEffect ,useMemo ,useContext} from 'react'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Logo from '/assets/unilogo.png'
-
+import { ThemeContext } from '../context/ThemeContext';
 const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) => {
     const [loader , setLoader] = useState(false);
+    const { theme } = useContext(ThemeContext);
     const handleDownload = () => {
         const capture = document.querySelector('.planning');
         setLoader(true);
@@ -64,35 +65,35 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
                     <td className="px-6 py-4 whitespace-no-wrap ">
                             <ul className="list-inside text-white">
                             {examsName.map((name) => (
-                                <li key={name} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400 '>{name}</li>
+                                <li key={name} className='border-b  border-blue-gray-100 bg-blue-gray-50 py-4 text-sm hover:text-gray-400 '>{name}</li>
                             ))}
                             </ul>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap">
-                        <ul className=" list-inside">
+                            <ul className="list-inside text-white">
                             {examsDate.map((date) => (
-                                <li key={date} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400 '>{date}</li>
+                                <li key={date} className='border-b border-blue-gray-100 bg-blue-gray-50 py-4 text-sm hover:text-gray-400 '>{date}</li>
                             ))}
                             </ul>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap">
-                        <ul className="">
+                            <ul className="list-inside text-white">
                             {examsHeure.map((time) => (
-                            <li key={time} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400 ">{time}</li>
+                            <li key={time} className="border-b border-blue-gray-100 bg-blue-gray-50 py-4 text-sm hover:text-gray-400 ">{time}</li>
                             ))}
                         </ul>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap">
-                        <ul className="">
+                            <ul className="list-inside text-white">
                             {salles.map((salle) => (
-                            <li key={salle} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400 ">{salle.type} {salle.num} {salle.batiment}</li>
+                            <li key={salle} className="border-b border-blue-gray-100 bg-blue-gray-50 py-4 text-sm hover:text-gray-400 ">{salle.type} {salle.num} {salle.batiment}</li>
                             ))}
                         </ul>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap">
-                        <ul className="">
+                    <ul className="list-inside text-white">
                             {profs.map((professors, index) => (
-                            <li key={`professor-group-${index}`} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:text-gray-400">
+                            <li key={`professor-group-${index}`} className="border-b border-blue-gray-100 bg-blue-gray-50 py-4 text-sm hover:text-gray-400">
                                 {professors && professors.length > 0 ? (
                                 <div>
                                     {professors.map((professor, idx) => (
@@ -201,7 +202,7 @@ const Table = ({exams,faculte,departement,filiere ,annee,semestre, session }) =>
             {/* */}
             <div className="flex justify-center mt-4">
                 {exams.length > 0 ? (
-                    <button onClick={handleDownload} className="bg-indigo-900 hover:bg-indigo-700 text-white py-3 px-4 rounded-md w-1/4">
+                    <button onClick={handleDownload} className="bg-indigo-900 hover:bg-indigo-700 text-white py-3 px-4 rounded-md w-full lg:w-1/4 md:w-1/3">
                         {loader ? (
                             <span>En cours de téléchargement...</span>
                             ) : (

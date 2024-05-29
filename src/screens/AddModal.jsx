@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { useSnackbar } from 'notistack';
@@ -7,6 +7,7 @@ import useAuthContext  from '../hooks/useAuthContext';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ThemeContext } from '../context/ThemeContext';
 
 const heurs = [
   { value: '8:00', label: '8:00' },
@@ -34,6 +35,7 @@ const AddModal = ({onClose }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuthContext();
+  const { theme } = useContext(ThemeContext);
   const id = user.user._id
   const handleDayChange = (selectedDay) => {
     setDate({ ...date, jour: selectedDay });
@@ -49,24 +51,25 @@ const AddModal = ({onClose }) => {
     setDate({ ...date, fin: selectedEndTime });
     setErrorMessage(null);
   };
+
   const customStyles = {
     menu: (provided, state) => ({
       ...provided,
-      backgroundColor: '#374151',
+      backgroundColor: theme === 'dark' ? '#374151' : 'white',
       borderRadius: '4px',
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected ? '#334155' : '#374151',
-      color: state.isSelected ? '#e5e7eb' : '#f3f4f6',
+      backgroundColor: state.isSelected ?theme === 'light' ? '#D1CECE' : '#334155' : theme === 'light' ? '#FFFFFF' : '#374151',
+      color: state.isSelected ? theme === 'light' ? 'black' :'#e5e7eb' : theme === 'light' ? '' : '#f3f4f6',
       '&:hover': {
-        backgroundColor: state.isSelected ? '#334155' : '#6b7280',
-        color: state.isSelected ? '#e5e7eb' : '#e5e7eb',
+        backgroundColor: state.isSelected ? theme === 'light' ? '#e5e7eb' : '#374151' : theme === 'light' ? '#e5e7eb' : '#6b7280',
+        color: state.isSelected ? theme === 'light' ? '#374151' : '#e5e7eb' : theme === 'light' ? '#374151' : '#e5e7eb',
       },
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: '#e5e7eb',  
+      color: theme === 'dark' ? '#e5e7eb' : '#000000',
     }),
   };
 
@@ -99,17 +102,17 @@ const AddModal = ({onClose }) => {
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className='w-[600px] max-w-full h-[400px] bg-gray-800 rounded-xl p-4 flex flex-col relative'
+        className={`w-[600px] max-w-full h-[400px] rounded-xl p-4 flex flex-col relative ${theme === 'dark' ? 'bg-gray-800 text-gray-200' : 'bg-gray-200 text-gray-800'}`}
       >
         <AiOutlineClose
           className='absolute right-6 top-6 text-3xl text-red-600 cursor-pointer'
           onClick={onClose}
         />
-        <h2 className='text-xl font-body font-medium mt-6 text-white self-center'>Ajouter une disponibilité</h2>
+        <h2 className='text-xl font-body font-medium mt-6 self-center'>Ajouter une disponibilité</h2>
         <div className='my-4 flex flex-col'>
-            <label className='font-body font-medium text-gray-400 mb-2'>Jour</label>
+            <label className='font-body font-medium mb-2'>Jour</label>
             <DatePicker
-              className='w-full font-body bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+              className={`w-full font-body  bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out' ${theme === 'dark' ? 'bg-gray-600 text-gray-100' : 'bg-gray-200 text-gray-800'}`}
               showIcon
               selected={date.jour}
               onChange={(date) => handleDayChange(date)}     
@@ -118,11 +121,11 @@ const AddModal = ({onClose }) => {
         </div>
         <div className="flex ">
           <div className="mr-4 w-full">
-            <label className="block mb-1 text-sm font-medium font-body text-gray-400">Heure début </label>
+            <label className="block mb-1 text-sm font-medium font-body ">Heure début </label>
             <Select
               onChange={(selectedOption) => handleStartTimeChange(selectedOption.value)}
               options={heurs}
-              className="basic-multi-select font-body bg-gray-600 bg-opacity-20  focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-black leading-8 transition-colors duration-200 ease-in-out"
+              className={`basic-multi-select font-body bg-opacity-20 focus:ring-indigo-900 rounded border text-base outline-none leading-8 transition-colors duration-200 ease-in-out ${theme === 'dark' ? 'bg-gray-600 border-gray-600 focus:border-indigo-500 text-white' : 'bg-gray-200 border-gray-300 focus:border-indigo-500 text-black'}`}
               styles={{
                 ...customStyles, // Merge custom styles
                 control: (base) => ({
@@ -136,12 +139,12 @@ const AddModal = ({onClose }) => {
           </div>
 
           <div className="w-full">
-            <label className="block mb-1 text-sm font-medium font-body text-gray-400">Heure fin </label>
+            <label className="block mb-1 text-sm font-medium font-body ">Heure fin </label>
             <Select
               options={heurs}
               onChange={(selectedOption) => handleEndTimeChange(selectedOption.value)}
 
-              className="basic-multi-select font-body bg-gray-600 bg-opacity-20  focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-black leading-8 transition-colors duration-200 ease-in-out"
+              className={`basic-multi-select font-body bg-opacity-20 focus:ring-indigo-900 rounded border text-base outline-none leading-8 transition-colors duration-200 ease-in-out ${theme === 'dark' ? 'bg-gray-600 border-gray-600 focus:border-indigo-500 text-white' : 'bg-gray-200 border-gray-300 focus:border-indigo-500 text-black'}`}
               styles={{
                 ...customStyles, // Merge custom styles
                 control: (base) => ({
