@@ -1,35 +1,26 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useRef } from "react";
+import { authReducer, retrieveUserFromLocalStorage } from "../utils/authReducer";
+
 
 export const AuthContext = createContext();
 
-export const authReducer = (state, action) => {
-    switch (action.type) {
-        case "LOGIN":
-            // Save user to local storage
-            localStorage.setItem("user", JSON.stringify(action.payload));
-            return {
-                user: action.payload
-            };
-        case "LOGOUT":
-            // Remove user from local storage
-            localStorage.removeItem("user");
-            return {
-                user: null
-            };
-        default:
-            return state;
-    }
-}
-
 export const AuthContextProvider = ({ children }) => {
+
     const [state, dispatch] = useReducer(authReducer, {
-        user: null
+        user: null,
+
     });
+    const isMounted = useRef(true);
 
     useEffect(() => {
-        // Retrieve user from local storage on component mount
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        const user = retrieveUserFromLocalStorage();
+        if (user && isMounted.current) {
             dispatch({ type: "LOGIN", payload: user });
         }
     }, []);
@@ -38,5 +29,5 @@ export const AuthContextProvider = ({ children }) => {
         <AuthContext.Provider value={{ ...state, dispatch }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
